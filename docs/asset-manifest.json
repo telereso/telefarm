@@ -4,8 +4,8 @@
     "app.js.map": "/static/js/app.2e6742b7.chunk.js.map",
     "runtime~app.js": "/static/js/runtime~app.2e9f1821.js",
     "runtime~app.js.map": "/static/js/runtime~app.2e9f1821.js.map",
-    "static/js/2.dea25f57.chunk.js": "/static/js/2.dea25f57.chunk.js",
-    "static/js/2.dea25f57.chunk.js.map": "/static/js/2.dea25f57.chunk.js.map",
+    "static/js/2.50f4e831.chunk.js": "/static/js/2.50f4e831.chunk.js",
+    "static/js/2.50f4e831.chunk.js.map": "/static/js/2.50f4e831.chunk.js.map",
     "fonts/AntDesign.ttf": "/./fonts/AntDesign.ttf",
     "fonts/Entypo.ttf": "/./fonts/Entypo.ttf",
     "fonts/Feather.ttf": "/./fonts/Feather.ttf",
@@ -22,7 +22,7 @@
     "index.html": "/index.html",
     "manifest.json": "/manifest.json",
     "serve.json": "/serve.json",
-    "static/js/2.dea25f57.chunk.js.LICENSE.txt": "/static/js/2.dea25f57.chunk.js.LICENSE.txt",
+    "static/js/2.50f4e831.chunk.js.LICENSE.txt": "/static/js/2.50f4e831.chunk.js.LICENSE.txt",
     "static/media/Android SDK built for x86_64.png": "/static/media/Android SDK built for x86_64.be564da8.png",
     "static/media/HUAWEI VNS-L31.png": "/static/media/HUAWEI VNS-L31.be564da8.png",
     "static/media/JKM-LX2.png": "/static/media/JKM-LX2.be564da8.png",
@@ -33,7 +33,7 @@
   },
   "entrypoints": [
     "static/js/runtime~app.2e9f1821.js",
-    "static/js/2.dea25f57.chunk.js",
+    "static/js/2.50f4e831.chunk.js",
     "static/js/app.2e6742b7.chunk.js"
   ]
 }

@@ -1,0 +1,12 @@
+{
+  "name": "nexus-react",
+  "displayName": "nexus-react",
+  "expo": {
+    "name": "nexus-react",
+    "slug": "nexus-react",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}

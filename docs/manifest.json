@@ -1,0 +1,7 @@
+{
+  "display": "standalone",
+  "lang": "en",
+  "name": "nexus-react",
+  "short_name": "nexus-react",
+  "start_url": "/?utm_source=web_app_manifest"
+}

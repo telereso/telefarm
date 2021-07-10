@@ -121,6 +121,7 @@ export function HomeScreen({ navigation }) {
 
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Text>Select yes</Text>
             <FlatList
                 data={devices}
                 renderItem={({ item: { serial, abi, height, locale, manufacturer, model, name, width, state, url } }) => (

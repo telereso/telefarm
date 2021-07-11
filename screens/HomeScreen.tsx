@@ -4,32 +4,7 @@ import { Card } from 'react-native-elements'
 import * as firebase from 'firebase/app';
 import "firebase/messaging";
 import * as WebBrowser from 'expo-web-browser';
-
-
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-    apiKey: "AIzaSyByJlNuPKr9mQ_MmW0xw1_AQYfMDZ3rXwg",
-    authDomain: "instamaterial-2eb76.firebaseapp.com",
-    projectId: "instamaterial-2eb76",
-    storageBucket: "instamaterial-2eb76.appspot.com",
-    messagingSenderId: "193172152804",
-    appId: "1:193172152804:web:72f74e5f7ac226d409a7f1",
-    measurementId: "G-5KJ4F2NMQC"
-};
-firebase.initializeApp(firebaseConfig);
-const messaging = firebase.messaging();
-messaging.getToken({ vapidKey: "BMsOZS5g4PFGm0a2XRjl0aHfsJ0B-HxWIXHb8f7vXmKwPKeSfCvFom6q4aB1bmP7xrangd8M8A_RTcd_BnjTvzA" }).then((currentToken) => {
-    if (currentToken) {
-        global.fcmToken = currentToken
-    } else {
-        // Show permission request UI
-        console.log('No registration token available. Request permission to generate one.');
-        // ...
-    }
-}).catch((err) => {
-    console.log('An error occurred while retrieving token. ', err);
-    // ...
-});
+import { io } from "socket.io-client";
 
 export function HomeScreen({ navigation }) {
     const [devices, seDevices] = useState([])
@@ -37,10 +12,10 @@ export function HomeScreen({ navigation }) {
     stateRef.current = devices
 
     function fetchDevices() {
-        fetch(`https://us-central1-instamaterial-2eb76.cloudfunctions.net/devices?token=${global.fcmToken}`, {
+        fetch(`https://us-central1-instamaterial-2eb76.cloudfunctions.net/devices`, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${global.idToekn}`
+                'Authorization': `Bearer ${global.user.id_token}`
 
             }
         }).then((response) => response.json()).then(data => {
@@ -49,25 +24,67 @@ export function HomeScreen({ navigation }) {
     }
 
     useEffect(() => {
-        messaging.onMessage(async (payload) => {
-            switch (payload.data.state) {
+        let currentReconnectionAttempts = 1
+        const reconnectionAttempts = 2
+        const reconnectionDelay = 2000
+        const host ="https://proxy.telereso.io";
+//        const host ="http://localhost:8081";
+        const socket = io(host, {
+                autoConnect: false,
+                reconnection: false,
+                withCredentials: true,
+                query: {token: global.user.id_token}
+        });
+
+        const tryReconnect = () => {
+          if(currentReconnectionAttempts >= reconnectionAttempts) return
+          currentReconnectionAttempts++
+          setTimeout(() => {
+            socket.io.open((err) => {
+              if (err) {
+                tryReconnect();
+              }
+            });
+          }, reconnectionDelay);
+        }
+
+        socket.io.on("close", tryReconnect);
+
+
+        socket.onAny((eventName, ...args) => {
+          console.log(eventName);
+        });
+
+        socket.on("connect", () => {
+//            global.token = `${global.userInfo.email}_${socket.id}`
+            global.token = socket.id
+            console.log(global.token); // x8WIv7-mJelg7on_ALbx
+        });
+
+        socket.on("connect_error", (err) => {
+          console.log(`connect_error due to ${err.message}`);
+        });
+
+        socket.on("disconnect", () => {
+            console.log(socket.id); // undefined
+        });
+
+        socket.on("device", (data) => {
+            switch (data.state) {
                 case "NA":
-                    seDevices(devices.filter(({ serial }) => serial != payload.data.serial))
+                    seDevices(devices.filter(({ serial }) => serial != data.serial))
                     break;
-                case "devices_refreshed":
-                    fetchDevices();
-                break;    
                 case "reserved":
                     seDevices(stateRef.current.map(e => {
-                        if (e.serial == payload.data.serial) {
+                        if (e.serial == data.serial) {
                             e['state'] = 'reserved'
                         }
                         return e
                     }));
-                    break;    
+                    break;
                 case "A":
                     seDevices(stateRef.current.map(e => {
-                        if (e.serial == payload.data.serial) {
+                        if (e.serial == data.serial) {
                             e['state'] = null
                         }
                         return e
@@ -75,41 +92,38 @@ export function HomeScreen({ navigation }) {
                     break;
                 case "setup":
                     seDevices(stateRef.current.map(e => {
-                        if (e.serial == payload.data.serial) {
-                            e['state'] = `${payload.data.state}...`
+                        if (e.serial == data.serial) {
+                            e['state'] = `${data.state}...`
                         }
                         return e
                     }));
                     break;
                 case "ready":
                     seDevices(stateRef.current.map(e => {
-                        if (e.serial == payload.data.serial) {
+                        if (e.serial == data.serial) {
                             e['state'] = 'open'
-                            e['url'] = payload.data.url
+                            e['url'] = data.url
                         }
                         return e
                     }));
 
                     break;
                 default:
-                    console.log(payload)
+                    console.log(data)
             }
-            // const { title, ...options } = payload.notification;
-            // navigator.serviceWorker.register("firebase-messaging-sw.js");
-            // function showNotification() {
-            //     Notification.requestPermission(function (result) {
-            //         if (result === "granted") {
-            //             navigator.serviceWorker.ready.then(function (registration) {
-            //                 registration.showNotification(payload.notification.title, {
-            //                     body: payload.notification.body,
-            //                     tag: payload.notification.tag,
-            //                 });
-            //             });
-            //         }
-            //     });
-            // }
-            // showNotification();
+
         });
+        socket.on("devices", (data) => {
+            switch (data.state) {
+                case "devices_refreshed":
+                    fetchDevices();
+                break;
+            }
+            fetchDevices();
+        });
+
+        socket.connect()
+
 
         fetchDevices()
         // setInterval(() => {
@@ -121,7 +135,6 @@ export function HomeScreen({ navigation }) {
 
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Select yes</Text>
             <FlatList
                 data={devices}
                 renderItem={({ item: { serial, abi, height, locale, manufacturer, model, name, width, state, url } }) => (
@@ -182,10 +195,10 @@ export function HomeScreen({ navigation }) {
 }
 
 function reserve(serial: string) {
-    fetch(`https://us-central1-instamaterial-2eb76.cloudfunctions.net/requestDevice?serial=${serial}&token=${global.fcmToken}`, {
+    fetch(`https://us-central1-instamaterial-2eb76.cloudfunctions.net/requestDevice?serial=${serial}&token=${global.token}`, {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${global.idToekn}`
+            'Authorization': `Bearer ${global.user.id_token}`
         }
     }).then((response) => response.json()).then(data => {
     })

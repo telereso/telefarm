@@ -1,21 +1,37 @@
-import { Button, FlatList, Image, StyleSheet, Text, View } from "react-native";
+import { Button, FlatList, Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Card } from 'react-native-elements'
 import * as firebase from 'firebase/app';
 import "firebase/messaging";
 import * as WebBrowser from 'expo-web-browser';
 import { io } from "socket.io-client";
+import { connect } from 'react-redux';
+import { LogOut } from '../actions/AuthActions';
 
-export function HomeScreen({ navigation }) {
+const mapDispatchToProps = (dispatch) => {
+    return {
+        reduxLogOut: () => dispatch(LogOut())
+    }
+};
+
+
+// Map State To Props (Redux Store Passes State To Component)
+const mapStateToProps = (state) => {
+    // Redux Store --> Component
+    return {
+        Token: state.authReducer.Token,
+    };
+};
+
+const HomeScreen = ({ navigation, reduxLogOut, Token }) =>  {
     const [devices, seDevices] = useState([])
     const stateRef = useRef(devices);
     stateRef.current = devices
-
     function fetchDevices() {
         fetch(`https://us-central1-instamaterial-2eb76.cloudfunctions.net/devices`, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${global.user.id_token}`
+                'Authorization': `Bearer ${Token.id_token}`
 
             }
         }).then((response) => response.json()).then(data => {
@@ -24,45 +40,45 @@ export function HomeScreen({ navigation }) {
     }
 
     useEffect(() => {
+
         let currentReconnectionAttempts = 1
         const reconnectionAttempts = 2
         const reconnectionDelay = 2000
-        const host ="https://proxy.telereso.io";
-//        const host ="http://localhost:8081";
+        const host = "https://proxy.telereso.io";
+        //        const host ="http://localhost:8081";
         const socket = io(host, {
-                autoConnect: false,
-                reconnection: false,
-                withCredentials: true,
-                query: {token: global.user.id_token}
+            autoConnect: false,
+            reconnection: false,
+            withCredentials: true,
+            query: { token: Token.id_token }
         });
 
         const tryReconnect = () => {
-          if(currentReconnectionAttempts >= reconnectionAttempts) return
-          currentReconnectionAttempts++
-          setTimeout(() => {
-            socket.io.open((err) => {
-              if (err) {
-                tryReconnect();
-              }
-            });
-          }, reconnectionDelay);
+            if (currentReconnectionAttempts >= reconnectionAttempts) return
+            currentReconnectionAttempts++
+            setTimeout(() => {
+                socket.io.open((err) => {
+                    if (err) {
+                        tryReconnect();
+                    }
+                });
+            }, reconnectionDelay);
         }
 
         socket.io.on("close", tryReconnect);
 
 
         socket.onAny((eventName, ...args) => {
-          console.log(eventName);
+            console.log(eventName);
         });
 
         socket.on("connect", () => {
-//            global.token = `${global.userInfo.email}_${socket.id}`
-            global.token = socket.id
-            console.log(global.token); // x8WIv7-mJelg7on_ALbx
+            Token.token = socket.id
+            console.log(Token.token); // x8WIv7-mJelg7on_ALbx
         });
 
         socket.on("connect_error", (err) => {
-          console.log(`connect_error due to ${err.message}`);
+            console.log(`connect_error due to ${err.message}`);
         });
 
         socket.on("disconnect", () => {
@@ -117,7 +133,7 @@ export function HomeScreen({ navigation }) {
             switch (data.state) {
                 case "devices_refreshed":
                     fetchDevices();
-                break;
+                    break;
             }
             fetchDevices();
         });
@@ -135,6 +151,11 @@ export function HomeScreen({ navigation }) {
 
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                <Text>
+                    open drawer
+                </Text>
+            </TouchableOpacity>
             <FlatList
                 data={devices}
                 renderItem={({ item: { serial, abi, height, locale, manufacturer, model, name, width, state, url } }) => (
@@ -190,15 +211,25 @@ export function HomeScreen({ navigation }) {
                 numColumns={3}
                 keyExtractor={(item, index) => index}
             />
+
+            <TouchableOpacity onPress={async () => {
+                signOut();
+                reduxLogOut();
+            }}>
+                <Text>
+                    logout
+                </Text>
+            </TouchableOpacity>
+
         </View>
     );
 }
 
 function reserve(serial: string) {
-    fetch(`https://us-central1-instamaterial-2eb76.cloudfunctions.net/requestDevice?serial=${serial}&token=${global.token}`, {
+    fetch(`https://us-central1-instamaterial-2eb76.cloudfunctions.net/requestDevice?serial=${serial}&token=${Token.token}`, {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${global.user.id_token}`
+            'Authorization': `Bearer ${Token.id_token}`
         }
     }).then((response) => response.json()).then(data => {
     })
@@ -227,3 +258,6 @@ const styles = StyleSheet.create({
         padding: 4
     },
 });
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

@@ -7,6 +7,7 @@ import * as WebBrowser from 'expo-web-browser';
 import { io } from "socket.io-client";
 import { connect } from 'react-redux';
 import { LogOut } from '../actions/AuthActions';
+import Header from '../components/Header';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -23,7 +24,7 @@ const mapStateToProps = (state) => {
     };
 };
 
-const HomeScreen = ({ navigation, reduxLogOut, Token }) =>  {
+const HomeScreen = ({ navigation, reduxLogOut, Token }) => {
     const [devices, seDevices] = useState([])
     const stateRef = useRef(devices);
     stateRef.current = devices
@@ -74,7 +75,6 @@ const HomeScreen = ({ navigation, reduxLogOut, Token }) =>  {
 
         socket.on("connect", () => {
             Token.token = socket.id
-            console.log(Token.token); // x8WIv7-mJelg7on_ALbx
         });
 
         socket.on("connect_error", (err) => {
@@ -150,12 +150,8 @@ const HomeScreen = ({ navigation, reduxLogOut, Token }) =>  {
     }, []);
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <TouchableOpacity onPress={() => navigation.openDrawer()}>
-                <Text>
-                    open drawer
-                </Text>
-            </TouchableOpacity>
+        <View style={styles.container}>
+            <Header/>
             <FlatList
                 data={devices}
                 renderItem={({ item: { serial, abi, height, locale, manufacturer, model, name, width, state, url } }) => (
@@ -212,14 +208,7 @@ const HomeScreen = ({ navigation, reduxLogOut, Token }) =>  {
                 keyExtractor={(item, index) => index}
             />
 
-            <TouchableOpacity onPress={async () => {
-                signOut();
-                reduxLogOut();
-            }}>
-                <Text>
-                    logout
-                </Text>
-            </TouchableOpacity>
+
 
         </View>
     );
@@ -236,6 +225,9 @@ function reserve(serial: string) {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
     deviceContainer: {
         flex: 1,
         flexDirection: "row",

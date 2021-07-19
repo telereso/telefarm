@@ -18,7 +18,7 @@ WebBrowser.maybeCompleteAuthSession();
 const Stack = createStackNavigator();
 
 
-export default function App() {
+function App() {
     return (
         <Provider store={store}>
             <PersistGate persistor={persistor}>
@@ -28,6 +28,7 @@ export default function App() {
     );
 }
 
+export default App;
 
 
 

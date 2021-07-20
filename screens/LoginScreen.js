@@ -11,7 +11,7 @@ import jwt from "jsonwebtoken";
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        reduxLogin: (googleUser) => dispatch(Login(googleUser))
+        reduxLogin: (UserData) => dispatch(Login(UserData))
     }
 };
 
@@ -19,7 +19,10 @@ const mapDispatchToProps = (dispatch) => {
 const LoginScreen = ({ reduxLogin }) => {
     useEffect(() => {
         window.onSignIn = function (googleUser) {
-            reduxLogin(googleUser);
+            let UserData = {}
+            UserData.data = googleUser;
+            UserData.info = jwt.decode(googleUser.getAuthResponse().id_token)
+            reduxLogin(UserData);
         }
     })
     return (

@@ -15,18 +15,11 @@ import { connect } from 'react-redux';
 import { LogOut } from '../actions/AuthActions';
 
 import CustomDrawerContent from './CustomDrawerContent';
-
-// Map State To Props (Redux Store Passes State To Component)
-const mapStateToProps = (state) => {
-    // Redux Store --> Component
-    return {
-        Token: state.authReducer.Token,
-    };
-};
+import EmulatorsScreen from '../screens/EmulatorsScreen';
 
 
 
-const Drawer = ({ Token, reduxLogOut }) => {
+const Drawer = ({reduxLogOut }) => {
     const Drawer = createDrawerNavigator();
 
     useEffect(() => {
@@ -45,8 +38,8 @@ const Drawer = ({ Token, reduxLogOut }) => {
                 drawerContent={props => <CustomDrawerContent {...props} />}
             >
                 {/* <Drawer.Screen name="Login" component={LoginScreen} /> */}
+                <Drawer.Screen name="Home" component={EmulatorsScreen} />
                 <Drawer.Screen name="ContactUS" component={ContactUsScreen} />
-                <Drawer.Screen name="Home" component={HomeScreen} />
 
             </Drawer.Navigator>
         </NavigationContainer>
@@ -91,4 +84,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Drawer);
+export default connect(null, mapDispatchToProps)(Drawer);

@@ -1,9 +1,8 @@
-import jwt from "jsonwebtoken";
 
 // Initial State
 const initialState = {
-  Token: null,
-  UserInfo : null
+  UserData: null,
+  // UserInfo : null
 };
 
 // Reducers (Modifies The State And Returns A New State)
@@ -15,8 +14,7 @@ export const authReducer = (state = initialState, action) => {
         // State
         ...state,
         // Redux Store
-        Token: action.Token,
-        UserInfo: jwt.decode(action.Token.getAuthResponse().id_token)
+        UserData: action.UserData,
       };
     }
     //SignOut
@@ -25,7 +23,7 @@ export const authReducer = (state = initialState, action) => {
         // State
         state,
         // Redux Store
-        Token: action.Token,
+        UserData: null,
       };
     }
     // Default

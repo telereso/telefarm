@@ -15,13 +15,12 @@ import LoginScreen from '../screens/LoginScreen';
 const mapStateToProps = (state) => {
     // Redux Store --> Component
     return {
-        Token: state.authReducer.Token,
-        UserInfo: state.authReducer.UserInfo
+        UserData: state.authReducer.UserData
     };
 };
 
 const CustomDrawerContent = (props) => {
-    console.log('jwt is ', props.UserInfo);
+    console.log('jwt is ', props);
     return (
         <DrawerContentScrollView {...props} style={styles.container}>
             <Image
@@ -32,7 +31,7 @@ const CustomDrawerContent = (props) => {
                 Hi Fadi
             </Text>
             <DrawerItemList {...props} />
-            {props.Token == null ?
+            {props.UserData == null ?
                 <LoginScreen />
                 :
                 <TouchableOpacity onPress={async () => {

@@ -1,13 +1,13 @@
-export const Login = (googleUser) => (
+export const Login = (UserData) => (
     {
       type: 'LOGIN',
-      Token: googleUser,
+      UserData: UserData,
     }
   );
 
   export const LogOut = () => (
     {
       type: 'LOG_OUT',
-      Token: null,
+      UserData: null,
     }
   );

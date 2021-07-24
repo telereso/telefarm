@@ -23,13 +23,30 @@ const CustomDrawerContent = (props) => {
     console.log('jwt is ', props);
     return (
         <DrawerContentScrollView {...props} style={styles.container}>
-            <Image
-                source={require('../assets/user.png')}
-                style={styles.logo}
-            />
-            <Text style={styles.greeting}>
-                Hi Fadi
-            </Text>
+            {props.UserData != null
+                ?
+                <Image
+                    source={{ uri: props.UserData.info.picture }}
+                    style={styles.logo}
+                />
+                :
+                <Image
+                    source={require('../assets/user.png')}
+                    style={styles.logo}
+                />
+            }
+
+            {props.UserData != null
+                ?
+                <Text style={styles.greeting}>
+                    Hi {props.UserData.info.given_name}
+                </Text>
+                :
+                <Text style={styles.greeting}>
+                    Hi User
+                </Text>
+            }
+
             <DrawerItemList {...props} />
             {props.UserData == null ?
                 <LoginScreen />
@@ -54,7 +71,7 @@ const styles = StyleSheet.create({
     logo: {
         height: 100,
         resizeMode: 'contain',
-        minWidth: 100
+        minWidth: 100,
     },
     greeting: {
         textAlign: 'center',
@@ -62,6 +79,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         borderBottomColor: 'silver',
         borderBottomWidth: 1,
+        marginTop: 10,
         marginBottom: 10,
         paddingBottom: 10
     },

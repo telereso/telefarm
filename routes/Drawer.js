@@ -2,8 +2,14 @@ import React, { useEffect } from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 
 import HomeScreen from "../screens/HomeScreen";
-import LoginScreen from '../screens/LoginScreen'
 import ContactUsScreen from '../screens/ContactUsScreen'
+import EmulatorsScreen from '../screens/EmulatorsScreen';
+import CustomizeScreen from '../screens/CustomizeScreen';
+import RealDevicesScreen from '../screens/RealDevicesScreen';
+import TopUpPackagesScreen from '../screens/guest/TopUpPackagesScreen';
+import PrivacyPolicyScreen from '../screens/PrivacyPolicyScreen';
+import TermsAndConditionsScreen from '../screens/TermsAndConditionsScreen';
+
 import {
     createDrawerNavigator,
     DrawerContentScrollView,
@@ -15,8 +21,6 @@ import { connect } from 'react-redux';
 import { LogOut } from '../actions/AuthActions';
 
 import CustomDrawerContent from './CustomDrawerContent';
-import EmulatorsScreen from '../screens/EmulatorsScreen';
-
 
 
 const Drawer = ({reduxLogOut }) => {
@@ -37,10 +41,14 @@ const Drawer = ({reduxLogOut }) => {
                 }}
                 drawerContent={props => <CustomDrawerContent {...props} />}
             >
-                {/* <Drawer.Screen name="Login" component={LoginScreen} /> */}
-                <Drawer.Screen name="Home" component={EmulatorsScreen} />
+                <Drawer.Screen name="Home" component={HomeScreen} />
                 <Drawer.Screen name="ContactUS" component={ContactUsScreen} />
-
+                <Drawer.Screen name="Emulators" component={EmulatorsScreen} />
+                <Drawer.Screen name="Customize" component={CustomizeScreen} />
+                <Drawer.Screen name="RealDevices" component={RealDevicesScreen} />
+                <Drawer.Screen name="TopUpPackages" component={TopUpPackagesScreen} />
+                <Drawer.Screen name="PrivacyPolicy" component={PrivacyPolicyScreen} />
+                <Drawer.Screen name="TermsAndConditions" component={TermsAndConditionsScreen} />
             </Drawer.Navigator>
         </NavigationContainer>
     )

@@ -70,19 +70,19 @@ const HomeScreen = () => {
                 <View style={styles.featuresSection}>
                     <View style={styles.featuresLine}>
                         <Feature
-                            icon={<Ionicons name="shield-checkmark" size={24} color="#6314fe" />}
+                            icon={<Ionicons name="shield-checkmark" size={24} color="#009fd5" />}
                             title='Secure'
                             text='text text text texttext texttext texttext texttext texttext texttext texttext text'
                             style={styles.feature}
                         />
                         <Feature
-                            icon={<Ionicons name="shield-checkmark" size={24} color="#6314fe" />}
+                            icon={<Ionicons name="shield-checkmark" size={24} color="#009fd5" />}
                             title='24/7 Support'
                             text='text text text texttext texttext texttext texttext texttext texttext texttext text'
                             style={styles.feature}
                         />
                         <Feature
-                            icon={<Ionicons name="shield-checkmark" size={24} color="#6314fe" />}
+                            icon={<Ionicons name="shield-checkmark" size={24} color="#009fd5" />}
                             title='Customizable'
                             text='text text text texttext texttext texttext texttext texttext texttext texttext text'
                             style={styles.feature}
@@ -90,19 +90,19 @@ const HomeScreen = () => {
                     </View>
                     <View style={styles.featuresLine}>
                         <Feature
-                            icon={<Ionicons name="shield-checkmark" size={24} color="#6314fe" />}
+                            icon={<Ionicons name="shield-checkmark" size={24} color="#009fd5" />}
                             title='Reliable'
                             text='text text text texttext texttext texttext texttext texttext texttext texttext text'
                             style={styles.feature}
                         />
                         <Feature
-                            icon={<Ionicons name="shield-checkmark" size={24} color="#6314fe" />}
+                            icon={<Ionicons name="shield-checkmark" size={24} color="#009fd5" />}
                             title='Fast'
                             text='text text text texttext texttext texttext texttext texttext texttext texttext text'
                             style={styles.feature}
                         />
                         <Feature
-                            icon={<Ionicons name="shield-checkmark" size={24} color="#6314fe" />}
+                            icon={<Ionicons name="shield-checkmark" size={24} color="#009fd5" />}
                             title='Easy'
                             text='text text text texttext texttext texttext texttext texttext texttext texttext text'
                             style={styles.feature}
@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
         color: '#243e63'
     },
     color2: {
-        color: '#6314fe',
+        color: '#009fd5',
     },
     margin10: {
         marginTop: 10

@@ -26,9 +26,11 @@ const Plan = ({ title, image, features, Price }) => {
             <View style={styles.features}>
                 {listItems}
             </View>
+            <View>
             <Text
                 style={styles.price}
             >{Price}</Text>
+            </View>
         </View>
     )
 }
@@ -41,11 +43,11 @@ const styles = StyleSheet.create({
         margin: 'auto',
     },
     image: {
-        flex: 1
+        flex: 1,
     },
     title: {
         flex: 1,
-        color: '#6314fe',
+        color: '#009fd5',
         marginTop: 10,
         marginBottom: 10,
         fontSize: 20,
@@ -53,7 +55,7 @@ const styles = StyleSheet.create({
     },
     price: {
         flex: 1,
-        backgroundColor: '#6314fe',
+        backgroundColor: '#009fd5',
         color: 'white',
         marginTop: 10,
         marginBottom: 10,

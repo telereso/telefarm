@@ -20,7 +20,7 @@ const Header = () => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'black',
+        backgroundColor: '#009fd5',
         height: 50,
         display: 'flex',
         flexDirection: 'row',

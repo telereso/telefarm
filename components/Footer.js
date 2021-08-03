@@ -8,29 +8,29 @@ const Footer = ({ scrollTop }) => {
         <View style={styles.container}>
             <View style={styles.topContainer}>
                 <TouchableOpacity style={styles.topArrow} onPress={() => scrollTop()}>
-                    <FontAwesome name="arrow-up" size={20} color="#6314fe" />
+                    <FontAwesome name="arrow-up" size={20} color="white" />
                 </TouchableOpacity>
             </View>
             <View style={styles.socialMediaContainer}>
                 <View style={styles.socialView}>
                     <TouchableOpacity style={styles.social}>
-                        <FontAwesome5 name="facebook-f" size={20} color="#6314fe" />
+                        <FontAwesome5 name="facebook-f" size={20} color="white" />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.socialView}>
                     <TouchableOpacity style={styles.social}>
-                        <FontAwesome name="instagram" size={20} color="#6314fe" />
+                        <FontAwesome name="instagram" size={20} color="white" />
                     </TouchableOpacity>
 
                 </View>
                 <View style={styles.socialView}>
                     <TouchableOpacity style={styles.social}>
-                        <FontAwesome name="linkedin" size={20} color="#6314fe" />
+                        <FontAwesome name="linkedin" size={20} color="white" />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.socialView}>
                     <TouchableOpacity style={styles.social}>
-                        <FontAwesome name="youtube-play" size={20} color="#6314fe" />
+                        <FontAwesome name="youtube-play" size={20} color="white" />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -85,7 +85,7 @@ const Footer = ({ scrollTop }) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'black',
+        backgroundColor: '#009fd5',
         paddingTop: 20,
         paddingBottom: 20,
         marginTop: 84
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
         paddingLeft:10,
         paddingRight:10,
         borderWidth:1,
-        borderColor: '#6314fe',
+        borderColor: 'white',
     },
     socialMediaContainer: {
         flexDirection: 'row',
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     social: {
         borderRadius: 100,
         borderWidth: 1,
-        borderColor: '#6314fe',
+        borderColor: 'white',
         padding: 8,
         width: 40,
         alignSelf: 'center',

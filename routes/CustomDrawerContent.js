@@ -20,7 +20,6 @@ const mapStateToProps = (state) => {
 };
 
 const CustomDrawerContent = (props) => {
-    console.log('jwt is ', props);
     return (
         <DrawerContentScrollView {...props} style={styles.container}>
             {props.UserData != null
@@ -54,6 +53,7 @@ const CustomDrawerContent = (props) => {
                 <TouchableOpacity onPress={async () => {
                     signOut();
                 }}>
+                    <LoginScreen />
                     <Text style={styles.logOut}>
                         logout
                 </Text>

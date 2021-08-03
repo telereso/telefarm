@@ -16,7 +16,7 @@ const Button = ({text,link}) => {
 
 const styles = StyleSheet.create({
     container: { 
-        backgroundColor: '#6314fe', 
+        backgroundColor: '#009fd5', 
         textAlign: 'center', 
         width: 120, 
         alignSelf: 'flex-start', 

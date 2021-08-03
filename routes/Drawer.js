@@ -18,17 +18,18 @@ import {
 } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { connect } from 'react-redux';
-import { LogOut } from '../actions/AuthActions';
+import { LogOut, LogOutSession } from '../actions/AuthActions';
 
 import CustomDrawerContent from './CustomDrawerContent';
 
 
-const Drawer = ({reduxLogOut }) => {
+const Drawer = ({ reduxLogOut, SessionLogOut }) => {
     const Drawer = createDrawerNavigator();
 
     useEffect(() => {
         window.onSignOut = function () {
             reduxLogOut();
+            SessionLogOut();
         }
     }, [])
 
@@ -57,7 +58,8 @@ const Drawer = ({reduxLogOut }) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        reduxLogOut: () => dispatch(LogOut())
+        reduxLogOut: () => dispatch(LogOut()),
+        SessionLogOut: () => dispatch(LogOutSession()),
     }
 };
 

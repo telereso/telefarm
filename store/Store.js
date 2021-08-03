@@ -15,6 +15,8 @@ const persistConfig = {
   storage: AsyncStorage,
   // Whitelist (Save Specific Reducers)
   whitelist: ['authReducer'],
+
+  blacklist:['sessionAuthReducer']
 };
 const middlewares = [thunk];
 

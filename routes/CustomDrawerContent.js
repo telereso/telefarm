@@ -15,17 +15,19 @@ import LoginScreen from '../screens/LoginScreen';
 const mapStateToProps = (state) => {
     // Redux Store --> Component
     return {
-        UserData: state.authReducer.UserData
+        UserData: state.authReducer.UserData,
+        UserDataSession: state.sessionAuthReducer.UserDataSession
     };
 };
 
 const CustomDrawerContent = (props) => {
+    console.log('UserDataSession',props.UserDataSession);
     return (
         <DrawerContentScrollView {...props} style={styles.container}>
-            {props.UserData != null
+            {props.UserDataSession != null
                 ?
                 <Image
-                    source={{ uri: props.UserData.info.picture }}
+                    source={{ uri: props.UserDataSession.info.picture }}
                     style={styles.logo}
                 />
                 :
@@ -48,12 +50,12 @@ const CustomDrawerContent = (props) => {
 
             <DrawerItemList {...props} />
             {props.UserData == null ?
-                <LoginScreen />
+                <LoginScreen display={true} />
                 :
                 <TouchableOpacity onPress={async () => {
                     signOut();
                 }}>
-                    <LoginScreen />
+                    <LoginScreen display={false} />
                     <Text style={styles.logOut}>
                         logout
                 </Text>

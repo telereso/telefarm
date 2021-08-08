@@ -162,7 +162,7 @@ const HomeScreen = () => {
                                 />}
                                 title='Silver'
                                 features={Features1}
-                                Price='10 USD'
+                                Price='10'
                             />
                         </View>
                         <View style={styles.feature2}>
@@ -173,7 +173,7 @@ const HomeScreen = () => {
                                 />}
                                 title='Gold'
                                 features={Features2}
-                                Price='20 USD'
+                                Price='20'
                             />
                         </View>
                         <View style={styles.feature}>
@@ -184,7 +184,7 @@ const HomeScreen = () => {
                                 />}
                                 title='Platinum'
                                 features={Features3}
-                                Price='30 USD'
+                                Price='30'
                                 style={styles.feature}
                             />
                         </View>

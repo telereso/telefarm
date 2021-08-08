@@ -21,7 +21,6 @@ const mapStateToProps = (state) => {
 };
 
 const CustomDrawerContent = (props) => {
-    console.log('UserDataSession',props.UserDataSession);
     return (
         <DrawerContentScrollView {...props} style={styles.container}>
             {props.UserDataSession != null
@@ -37,10 +36,10 @@ const CustomDrawerContent = (props) => {
                 />
             }
 
-            {props.UserData != null
+            {props.UserDataSession != null
                 ?
                 <Text style={styles.greeting}>
-                    Hi {props.UserData.info.given_name}
+                    Hi {props.UserDataSession.info.given_name}
                 </Text>
                 :
                 <Text style={styles.greeting}>
@@ -49,7 +48,7 @@ const CustomDrawerContent = (props) => {
             }
 
             <DrawerItemList {...props} />
-            {props.UserData == null ?
+            {props.UserDataSession == null ?
                 <LoginScreen display={true} />
                 :
                 <TouchableOpacity onPress={async () => {

@@ -46,7 +46,7 @@ const TopUpPackagesScreen = () => {
                                 />}
                                 title='Silver'
                                 features={Features1}
-                                Price='10 USD'
+                                Price='10'
                             />
                         </View>
                         <View style={styles.feature2}>
@@ -57,7 +57,7 @@ const TopUpPackagesScreen = () => {
                                 />}
                                 title='Gold'
                                 features={Features2}
-                                Price='20 USD'
+                                Price='20'
                             />
                         </View>
                         <View style={styles.feature}>
@@ -68,7 +68,7 @@ const TopUpPackagesScreen = () => {
                                 />}
                                 title='Platinum'
                                 features={Features3}
-                                Price='30 USD'
+                                Price='30'
                                 style={styles.feature}
                             />
                         </View>

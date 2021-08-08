@@ -6,14 +6,9 @@ import "firebase/messaging";
 import * as WebBrowser from 'expo-web-browser';
 import { io } from "socket.io-client";
 import { connect } from 'react-redux';
-import { LogOut } from '../actions/AuthActions';
 import Header from '../components/Header';
+import { ScrollView } from "react-native-gesture-handler";
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        reduxLogOut: () => dispatch(LogOut())
-    }
-};
 const window = Dimensions.get("window");
 
 
@@ -25,7 +20,7 @@ const mapStateToProps = (state) => {
     };
 };
 
-const EmulatorsScreen = ({ navigation, reduxLogOut, UserData }) => {
+const EmulatorsScreen = ({ navigation, UserData }) => {
 
     const [dimensions, setDimensions] = useState({ window });
 
@@ -164,85 +159,78 @@ const EmulatorsScreen = ({ navigation, reduxLogOut, UserData }) => {
 
 
         fetchDevices()
-        // setInterval(() => {
-        //     fetchDevices()
-
-        // }, 30000)
 
     }, []);
 
-    function getCloumn(){
-        if (dimensions.window.width  < 768)
+    function getCloumn() {
+        if (dimensions.window.width < 768)
             return 1
         else
             return 3
     }
 
-    console.log(dimensions.window.width )
-
     return (
-        <View style={styles.container}>
+        <ScrollView>
             <Header />
-            <FlatList
-                key={`${getCloumn()}`}
-                data={devices}
-                renderItem={({ item: { serial, abi, height, locale, manufacturer, model, name, width, state, url } }) => (
-                    <Card>
-                        <Card.Title>{name}</Card.Title>
-                        <Card.Divider />{
-                            <View style={styles.deviceContainer}>
-                                <Image style={styles.deviceImage}
-                                    resizeMode="center"
-                                    source={require(`../assets/${model}.png`)}
-                                />
-                                <View style={styles.deviceInfo}>
-                                    <Text>{manufacturer}</Text>
-                                    <View style={styles.padding} />
-                                    <Text>{model}</Text>
-                                    <View style={styles.padding} />
-                                    <Text>{`${width}X${height}`}</Text>
-                                    <View style={styles.padding} />
-                                    <Text>{abi}</Text>
-                                    <View style={styles.padding} />
-                                    <Text>{locale}</Text>
-                                    <View style={styles.padding} />
+            <View style={styles.container}>
+                <FlatList
+                    key={`${getCloumn()}`}
+                    data={devices}
+                    renderItem={({ item: { serial, abi, height, locale, manufacturer, model, name, width, state, url } }) => (
+                        <Card>
+                            <Card.Title>{name}</Card.Title>
+                            <Card.Divider />{
+                                <View style={styles.deviceContainer}>
+                                    <Image style={styles.deviceImage}
+                                        resizeMode="center"
+                                        source={require(`../assets/${model}.png`)}
+                                    />
+                                    <View style={styles.deviceInfo}>
+                                        <Text>{manufacturer}</Text>
+                                        <View style={styles.padding} />
+                                        <Text>{model}</Text>
+                                        <View style={styles.padding} />
+                                        <Text>{`${width}X${height}`}</Text>
+                                        <View style={styles.padding} />
+                                        <Text>{abi}</Text>
+                                        <View style={styles.padding} />
+                                        <Text>{locale}</Text>
+                                        <View style={styles.padding} />
 
-                                    <View style={styles.deviceReserve}>
+                                        <View style={styles.deviceReserve}>
 
-                                        <Button
-                                            disabled={state === "progress..." || state === "setup..." || state === 'reserved'}
-                                            color="#66BB6A"
-                                            onPress={async () => {
-                                                if (state == "open") {
-                                                    let result = await WebBrowser.openBrowserAsync(url);
-                                                } else {
-                                                    seDevices(devices.map(e => {
-                                                        if (e.serial === serial) {
-                                                            e['state'] = 'progress...'
-                                                        }
-                                                        return e
-                                                    }))
-                                                    reserve(serial)
-                                                }
-                                            }}
-                                            title={state || "Reserve"}
-                                            accessibilityLabel="Reserve a phone"
-                                        />
+                                            <Button
+                                                disabled={state === "progress..." || state === "setup..." || state === 'reserved'}
+                                                color="#66BB6A"
+                                                onPress={async () => {
+                                                    if (state == "open") {
+                                                        let result = await WebBrowser.openBrowserAsync(url);
+                                                    } else {
+                                                        seDevices(devices.map(e => {
+                                                            if (e.serial === serial) {
+                                                                e['state'] = 'progress...'
+                                                            }
+                                                            return e
+                                                        }))
+                                                        reserve(serial)
+                                                    }
+                                                }}
+                                                title={state || "Reserve"}
+                                                accessibilityLabel="Reserve a phone"
+                                            />
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
+                            }
+                        </Card>
+                    )}
+                    //Setting the number of column
+                    numColumns={getCloumn()}
+                    keyExtractor={(item, index) => index.toString()}
+                />
 
-                        }
-                    </Card>
-                )}
-                //Setting the number of column
-                numColumns={getCloumn()}
-                keyExtractor={(item, index) => index.toString()}
-            />
-
-
-
-        </View>
+            </View>
+        </ScrollView>
     );
 }
 
@@ -259,6 +247,9 @@ function reserve(serial) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        maxWidth: 1400,
+        marginLeft: 'auto',
+        marginRight: 'auto'
     },
     deviceContainer: {
         flex: 1,
@@ -284,5 +275,5 @@ const styles = StyleSheet.create({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(EmulatorsScreen);
+export default connect(mapStateToProps)(EmulatorsScreen);
 

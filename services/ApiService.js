@@ -4,9 +4,8 @@ import axios from 'axios';
 //type = get/post
 //data = if post != null
 //succussM = if we want to display success message after request
-base_Url = 'test.com';
 
-function ApiService(path, type, data = null, successM = false, message, baseUrl = base_Url, header = {}) {
+function ApiService(path, type, data = null, successM = false, message, baseUrl, header = {}) {
   let url = baseUrl + path;
   if (type == 'get') {
     return axios

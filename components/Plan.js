@@ -1,7 +1,8 @@
 import React from 'react'
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
-
+import TopUpPackagesScreen from '../screens/guest/TopUpPackagesScreen';
+import { TopUp } from '../helpers/Helpers'
 
 const Plan = ({ title, image, features, Price }) => {
 
@@ -26,11 +27,11 @@ const Plan = ({ title, image, features, Price }) => {
             <View style={styles.features}>
                 {listItems}
             </View>
-            <View>
-            <Text
-                style={styles.price}
-            >{Price}</Text>
-            </View>
+            <TouchableOpacity onPress={() => { TopUp(Price) }}>
+                <Text style={styles.price} >
+                    {Price}
+                </Text>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -61,24 +62,24 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         paddingLeft: 25,
         paddingRight: 25,
-        paddingTop:5,
-        paddingBottom:5,
+        paddingTop: 5,
+        paddingBottom: 5,
         fontSize: 17,
         fontWeight: 'bold',
         borderRadius: 5,
-        alignSelf:'center'
+        alignSelf: 'center'
     },
     feature: {
         color: 'black'
     },
-    features:{
-        width:180
+    features: {
+        width: 180
     },
     item: {
         flex: 1,
         flexDirection: 'row',
-        marginTop:5,
-        marginBottom:5
+        marginTop: 5,
+        marginBottom: 5
     },
     checkItem: {
         marginRight: 8,

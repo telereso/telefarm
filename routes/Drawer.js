@@ -37,7 +37,7 @@ const Drawer = ({ reduxLogOut, SessionLogOut }) => {
         <NavigationContainer >
             <Drawer.Navigator
                 drawerContentOptions={{
-                    activeTintColor: 'black',
+                    activeTintColor: 'white',
                     activeBackgroundColor: '#29a0df'
                 }}
                 drawerContent={props => <CustomDrawerContent {...props} />}

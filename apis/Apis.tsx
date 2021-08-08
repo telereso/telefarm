@@ -16,13 +16,14 @@ export const GetPaymentToken = async () => {
     {
       headers: {
         Authorization:
-        'Basic QVJBZFJINFpPbzFucGlUZzBRU1VFUDVEUEFTcEM2bDNzejhJZW5fSEx1VU4tTk9kSi1rV29oaWNKS1hrVlNyZnRQUFFXSGZlLV8tclRLUmI6RUpHNEpmQVFjaU1LVzU0Tm51S2d6RlN6VnBBLXJZSmdhMm5Da1NjSFJmcnViMnF6NWozVE03QkNadldjX0k5QVZtY1puN0pnZTczOHJkbmY=',
+          'Basic QVJBZFJINFpPbzFucGlUZzBRU1VFUDVEUEFTcEM2bDNzejhJZW5fSEx1VU4tTk9kSi1rV29oaWNKS1hrVlNyZnRQUFFXSGZlLV8tclRLUmI6RUpHNEpmQVFjaU1LVzU0Tm51S2d6RlN6VnBBLXJZSmdhMm5Da1NjSFJmcnViMnF6NWozVE03QkNadldjX0k5QVZtY1puN0pnZTczOHJkbmY=',
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     },
   )
     .then((res) => {
       token = res.data.access_token;
+
     })
     .catch((err) => {
       console.log(err);
@@ -31,41 +32,28 @@ export const GetPaymentToken = async () => {
   return token;
 };
 
-export const paymentLinks = async ({amount, token}) => {
+export const paymentLinks = async ({ amount, token }) => {
 
-  let links = {successLink: '', dataLink: '', id: '', token: token};
-  var data2 = JSON.stringify({
-    intent: 'AUTHORIZE',
-    purchase_units: [
-      {
-        amount: {
-          currency_code: 'USD',
-          value: amount,
-          breakdown: {
-            item_total: {value: amount, currency_code: 'USD'},
-          },
-        },
-        items: [
-          {
-            name: 'Top up',
-            unit_amount: {value: amount, currency_code: 'USD'},
-            description: 'Top up',
-            quantity: '1',
-          },
-        ],
-      },
-    ],
-
-    application_context: {
-      return_url: 'https://test.com',
-      cancel_url: 'https://test.com',
-    },
-  });
+  let links = { successLink: '', dataLink: '', id: '', token: token };
 
   await ApiService(
     '',
     'post',
-    data2,
+    {
+      "intent": "CAPTURE",
+      "purchase_units": [
+        {
+          "amount": {
+            "currency_code": "USD",
+            "value": amount
+          }
+        }
+      ],
+      "application_context": {
+        "return_url": 'https://floppysend.com',
+        "cancel_url": 'https://floppysend.com',
+      },
+    },
     false,
     '',
     'https://api-m.sandbox.paypal.com/v2/checkout/orders',
@@ -88,7 +76,7 @@ export const paymentLinks = async ({amount, token}) => {
   return links;
 };
 
-export const paymentStatus = async ({dataLink, token}) => {
+export const paymentStatus = async ({ dataLink, token }) => {
   let status;
 
   await ApiService('', 'post', {}, false, '', dataLink, {
